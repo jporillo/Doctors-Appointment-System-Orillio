@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zeus Clinic Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .field-error {
+            color: red;
+            font-size: 12px;
+            margin-top: -8px;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        input.invalid {
+            border: 2px solid red !important;
+        }
+        .taken-error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Create an Account</h1>
+    <div class="subtitle">Register to book your appointment at Zeus's Clinic</div>
+
+    {% if error %}
+        <p class="taken-error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" id="registerForm">
+
+        <input type="text" name="username"
+               placeholder="Create Username"
+               value="{{ form_data.username if form_data else '' }}"
+               class="{{ 'invalid' if errors and errors.username else '' }}">
+        {% if errors and errors.username %}
+            <p class="field-error">{{ errors.username }}</p>
+        {% endif %}
+
+        <input type="password" name="password"
+               placeholder="Create Password"
+               class="{{ 'invalid' if errors and errors.password else '' }}">
+        {% if errors and errors.password %}
+            <p class="field-error">{{ errors.password }}</p>
+        {% endif %}
+
+        <input type="text" name="name"
+               placeholder="Full Name"
+               value="{{ form_data.name if form_data else '' }}"
+               class="{{ 'invalid' if errors and errors.name else '' }}">
+        {% if errors and errors.name %}
+            <p class="field-error">{{ errors.name }}</p>
+        {% endif %}
+
+        <input type="text" name="age"
+               placeholder="Age"
+               value="{{ form_data.age if form_data else '' }}"
+               class="{{ 'invalid' if errors and errors.age else '' }}">
+        {% if errors and errors.age %}
+            <p class="field-error">{{ errors.age }}</p>
+        {% endif %}
+
+        <input type="text" name="address"
+               placeholder="Address (e.g. Davao City)"
+               value="{{ form_data.address if form_data else '' }}"
+               class="{{ 'invalid' if errors and errors.address else '' }}">
+        {% if errors and errors.address %}
+            <p class="field-error">{{ errors.address }}</p>
+        {% endif %}
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="login">
+        <a href="{{ url_for('login') }}">Back to Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

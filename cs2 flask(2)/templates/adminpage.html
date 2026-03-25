@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Zeus's Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .container {
+            max-width: 800px !important;
+            width: 90vw !important;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            font-size: 12px;
+            table-layout: fixed;
+        }
+        .admin-table colgroup col:nth-child(1) { width: 14%; }
+        .admin-table colgroup col:nth-child(2) { width: 18%; }
+        .admin-table colgroup col:nth-child(3) { width: 8%;  }
+        .admin-table colgroup col:nth-child(4) { width: 16%; }
+        .admin-table colgroup col:nth-child(5) { width: 22%; }
+        .admin-table colgroup col:nth-child(6) { width: 22%; }
+        .admin-table thead tr th {
+            background: linear-gradient(135deg, #f9a8d4, #f472b6);
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .admin-table thead tr th:first-child { border-radius: 12px 0 0 12px; }
+        .admin-table thead tr th:last-child  { border-radius: 0 12px 12px 0; text-align: center; }
+        .admin-table tbody tr {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(244,114,182,0.07);
+            transition: transform 0.15s;
+        }
+        .admin-table tbody tr:hover { transform: scale(1.01); }
+        .admin-table tbody tr:nth-child(even) { background: #fdf2f8; }
+        .admin-table tbody td {
+            padding: 8px 6px;
+            color: #555;
+            border-top: 1px solid #fce7f3;
+            border-bottom: 1px solid #fce7f3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .admin-table tbody td:first-child {
+            border-left: 1px solid #fce7f3;
+            border-radius: 10px 0 0 10px;
+            font-weight: 600;
+            color: #e879a0;
+        }
+        .admin-table tbody td:last-child {
+            border-right: 1px solid #fce7f3;
+            border-radius: 0 10px 10px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow: visible;
+        }
+        .edit-btn {
+            display: inline-block;
+            font-size: 11px;
+            color: #fff;
+            background: linear-gradient(135deg, #f9a8d4, #ec4899);
+            text-decoration: none;
+            border-radius: 20px;
+            padding: 4px 8px;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-right: 2px;
+        }
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #ec4899, #db2777);
+        }
+        .del-btn {
+            display: inline-block;
+            font-size: 11px;
+            color: #fff;
+            background: linear-gradient(135deg, #fca5a5, #ef4444);
+            text-decoration: none;
+            border-radius: 20px;
+            padding: 4px 8px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .del-btn:hover {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+        }
+        .crown {
+            font-size: 11px;
+            color: #f9a8d4;
+            text-align: center;
+            margin-bottom: 4px;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <div class="crown">✦ admin ✦</div>
+    <h1>Admin Panel</h1>
+    <div class="subtitle">Patient Records - Zeus's Clinic 🩷</div>
+
+    <table class="admin-table">
+        <colgroup>
+            <col><col><col><col><col><col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Appointment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, data in users.items() %}
+            <tr>
+                <td title="{{ username }}">{{ username }}</td>
+                <td title="{{ data[1][0] }}">{{ data[1][0] }}</td>
+                <td>{{ data[1][1] }}</td>
+                <td title="{{ data[1][2] }}">{{ data[1][2] }}</td>
+                <td title="{{ data[1][3] }}">{{ data[1][3] }}</td>
+                <td>
+                    <a href="{{ url_for('admin_update_user', username=username) }}" class="edit-btn">✎ Edit</a>
+                    <a href="{{ url_for('admin_delete_user', username=username) }}" class="del-btn">🗑 Del</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+
+</div>
+
+</body>
+</html>

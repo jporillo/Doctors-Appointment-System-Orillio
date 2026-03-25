@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Edit Patient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .field-error {
+            color: #e05c8a;
+            font-size: 12px;
+            margin-top: -8px;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        input.invalid {
+            border: 2px solid #e05c8a !important;
+        }
+        .success-msg {
+            color: #22c97a;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .editing-label {
+            text-align: center;
+            color: #c084b0;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+        .editing-label span {
+            font-weight: 700;
+            color: #ec4899;
+        }
+        .section-label {
+            font-size: 11px;
+            color: #f9a8d4;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .section-divider {
+            border: none;
+            border-top: 1px solid #fce7f3;
+            margin: 10px 0 14px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Edit Patient 🩷</h1>
+    <div class="subtitle">Admin Panel - Zeus's Clinic</div>
+
+    <p class="editing-label">Editing record for: <span>@{{ username }}</span></p>
+
+    {% if success %}
+        <p class="success-msg">&#10003; Record updated successfully!</p>
+    {% endif %}
+
+    <form method="POST" action="/admin/update/{{ username }}">
+
+        <p class="section-label">✦ Patient Info</p>
+
+        <input type="text" name="username"
+               placeholder="New Username"
+               value="{{ form_data.username }}"
+               class="{{ 'invalid' if errors and errors.username else '' }}">
+        {% if errors and errors.username %}
+            <p class="field-error">{{ errors.username }}</p>
+        {% endif %}
+
+        <input type="text" name="name"
+               placeholder="Full Name"
+               value="{{ form_data.name }}"
+               class="{{ 'invalid' if errors and errors.name else '' }}">
+        {% if errors and errors.name %}
+            <p class="field-error">{{ errors.name }}</p>
+        {% endif %}
+
+        <input type="text" name="age"
+               placeholder="Age"
+               value="{{ form_data.age }}"
+               class="{{ 'invalid' if errors and errors.age else '' }}">
+        {% if errors and errors.age %}
+            <p class="field-error">{{ errors.age }}</p>
+        {% endif %}
+
+        <input type="text" name="address"
+               placeholder="Address (e.g. Davao City)"
+               value="{{ form_data.address }}"
+               class="{{ 'invalid' if errors and errors.address else '' }}">
+        {% if errors and errors.address %}
+            <p class="field-error">{{ errors.address }}</p>
+        {% endif %}
+
+        <input type="text" name="appointment"
+               placeholder="Appointment Date (e.g. September 10, 2026)"
+               value="{{ form_data.appointment }}"
+               class="{{ 'invalid' if errors and errors.appointment else '' }}">
+        {% if errors and errors.appointment %}
+            <p class="field-error">{{ errors.appointment }}</p>
+        {% endif %}
+
+        <hr class="section-divider">
+        <p class="section-label">✦ Change Patient Password</p>
+
+        <input type="password" name="new_password"
+               placeholder="New Password (leave blank to keep current)">
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <div class="login">
+        <a href="{{ url_for('admin_panel') }}">&#8592; Back to Admin Panel</a>
+    </div>
+
+</div>
+
+</body>
+</html>

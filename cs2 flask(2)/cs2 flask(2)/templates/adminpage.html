@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Zeus's Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Admin Panel</h1>
+    <div class="subtitle">Patient Records - Zeus's Clinic</div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Appointment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, data in users.items() %}
+            <tr>
+                <td>{{ username }}</td>
+                <td>{{ data[1][0] }}</td>
+                <td>{{ data[1][1] }}</td>
+                <td>{{ data[1][2] }}</td>
+                <td>{{ data[1][3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+
+</div>
+
+</body>
+</html>

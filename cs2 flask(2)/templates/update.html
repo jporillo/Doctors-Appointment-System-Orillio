@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zeus Clinic - Update Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .field-error {
+            color: #e05c8a;
+            font-size: 12px;
+            margin-top: -8px;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        input.invalid {
+            border: 2px solid #e05c8a !important;
+        }
+        .success-msg {
+            color: #22c97a;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .verify-note {
+            font-size: 11px;
+            color: #c084b0;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .section-divider {
+            border: none;
+            border-top: 1px solid #fce7f3;
+            margin: 10px 0 14px 0;
+        }
+        .section-label {
+            font-size: 11px;
+            color: #f9a8d4;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .info-note {
+            font-size: 11px;
+            color: #f472b6;
+            text-align: center;
+            margin: 10px 0;
+            padding: 8px;
+            background: #fdf2f8;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Update Profile 🩷</h1>
+    <div class="subtitle">Update your registration details</div>
+
+    {% if success %}
+        <p class="success-msg">✓ Profile updated successfully!</p>
+        <p class="info-note">Your changes have been saved. The form has been cleared for security.</p>
+    {% endif %}
+
+    {% if verify_error %}
+        <p class="field-error" style="text-align:center;">{{ verify_error }}</p>
+    {% endif %}
+
+    {% if errors %}
+        <p class="info-note" style="background: #fef2f2; color: #e05c8a;">
+            ⚠ Update failed. Please re-enter all information correctly.
+        </p>
+    {% endif %}
+
+    <form method="POST" action="/update">
+
+        <p class="section-label">✦ Your Info</p>
+
+        <input type="text" name="username"
+               placeholder="Username"
+               value="{{ form_data.username }}"
+               class="{{ 'invalid' if errors and errors.username else '' }}">
+        {% if errors and errors.username %}
+            <p class="field-error">{{ errors.username }}</p>
+        {% endif %}
+
+        <input type="text" name="name"
+               placeholder="Full Name"
+               value="{{ form_data.name }}"
+               class="{{ 'invalid' if errors and errors.name else '' }}">
+        {% if errors and errors.name %}
+            <p class="field-error">{{ errors.name }}</p>
+        {% endif %}
+
+        <input type="text" name="age"
+               placeholder="Age"
+               value="{{ form_data.age }}"
+               class="{{ 'invalid' if errors and errors.age else '' }}">
+        {% if errors and errors.age %}
+            <p class="field-error">{{ errors.age }}</p>
+        {% endif %}
+
+        <input type="text" name="address"
+               placeholder="Address (e.g. Davao City)"
+               value="{{ form_data.address }}"
+               class="{{ 'invalid' if errors and errors.address else '' }}">
+        {% if errors and errors.address %}
+            <p class="field-error">{{ errors.address }}</p>
+        {% endif %}
+
+        <input type="text" name="appointment"
+               placeholder="Appointment Date (e.g. September 10, 2026)"
+               value="{{ form_data.appointment }}"
+               class="{{ 'invalid' if errors and errors.appointment else '' }}">
+        {% if errors and errors.appointment %}
+            <p class="field-error">{{ errors.appointment }}</p>
+        {% endif %}
+
+        <hr class="section-divider">
+        <p class="section-label">✦ Change Password</p>
+
+        <input type="password" name="new_password"
+               placeholder="New Password (leave blank to keep current)">
+
+        <hr class="section-divider">
+        <p class="section-label">✦ Verify It's You</p>
+        <p class="verify-note">Enter your current password to confirm changes 🔒</p>
+
+        <input type="password" name="verify_password"
+               placeholder="Current Password"
+               class="{{ 'invalid' if verify_error else '' }}">
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <div class="login">
+        <a href="{{ url_for('home') }}">← Back to Home</a>
+    </div>
+
+</div>
+
+</body>
+</html>

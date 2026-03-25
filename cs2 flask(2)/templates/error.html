@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .error-box {
+            background-color: #fff0f0;
+            border: 2px solid #ff4d4d;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-box">
+        <h1>Error!</h1>
+        <p>Invalid username or password.</p>
+        <a href="{{ url_for('login') }}">Go back to login</a>
+    </div>
+</body>
+</html>

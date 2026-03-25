@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zeus Clinic Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .error-msg {
+            color: red;
+            font-size: 12px;
+            margin-top: -8px;
+            margin-bottom: 6px;
+            text-align: left;
+            display: none;
+        }
+        input.invalid {
+            border: 2px solid red !important;
+        }
+        .update-btn {
+            display: block;
+            text-align: right;
+            margin-top: 8px;
+        }
+        .update-btn a {
+            font-size: 11px;
+            color: #aaa;
+            text-decoration: none;
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 3px 10px;
+        }
+        .update-btn a:hover {
+            color: #888;
+            border-color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Hello {{ name }}!</h1>
+    <div class="subtitle">Welcome to Zeus's Clinic</div>
+
+    <div class="info">
+        <strong>Name:</strong> {{ name }} <br>
+        <strong>Age:</strong> {{ age }} <br>
+        <strong>Address:</strong> {{ address }}
+    </div>
+
+    <h3>Book Your Appointment</h3>
+
+    {% if date_error %}
+        <p style="color:red; text-align:center;">{{ date_error }}</p>
+    {% endif %}
+
+    <form method="POST" id="appointmentForm" novalidate>
+        <input type="text" name="appointment" id="appointment"
+               placeholder="Enter appointment date (Example: September 10, 2026)">
+        <div class="error-msg" id="err-appointment">Please enter a valid date today or in the future.</div>
+        <button type="submit">Book Appointment</button>
+    </form>
+
+    <div class="update-btn">
+        <a href="{{ url_for('update_profile') }}">✎ Update Profile</a>
+    </div>
+
+    <div class="current">
+        <strong>Your current appointment:</strong> {{ appointment }}
+    </div>
+
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+
+</div>
+
+<script>
+    const MONTH_NAMES = {
+        january:1, february:2, march:3, april:4, may:5, june:6,
+        july:7, august:8, september:9, october:10, november:11, december:12
+    };
+
+    function isRealAndFuture(month, day, year) {
+        if (year < 1000 || year > 9999) return false;
+        if (month < 1 || month > 12) return false;
+
+        const date = new Date(year, month - 1, day);
+        const valid = (
+            date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day
+        );
+        if (!valid) return false;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return date >= today;
+    }
+
+    function parseDate(value) {
+        value = value.trim();
+
+        let m = value.match(/^([a-zA-Z]+)\s+(\d{1,2}),\s*(\d{4})$/);
+        if (m) {
+            const monthNum = MONTH_NAMES[m[1].toLowerCase()];
+            if (!monthNum) return false;
+            return isRealAndFuture(monthNum, parseInt(m[2]), parseInt(m[3]));
+        }
+
+        m = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if (m) return isRealAndFuture(parseInt(m[1]), parseInt(m[2]), parseInt(m[3]));
+
+        m = value.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+        if (m) return isRealAndFuture(parseInt(m[1]), parseInt(m[2]), parseInt(m[3]));
+
+        return false;
+    }
+
+    document.getElementById("appointmentForm").addEventListener("submit", function(e) {
+        const input = document.getElementById("appointment");
+        const errMsg = document.getElementById("err-appointment");
+
+        if (!parseDate(input.value)) {
+            input.classList.add("invalid");
+            errMsg.style.display = "block";
+            e.preventDefault();
+        } else {
+            input.classList.remove("invalid");
+            errMsg.style.display = "none";
+        }
+    });
+
+    document.getElementById("appointment").addEventListener("input", function() {
+        if (parseDate(this.value)) {
+            this.classList.remove("invalid");
+            document.getElementById("err-appointment").style.display = "none";
+        }
+    });
+</script>
+
+</body>
+</html>

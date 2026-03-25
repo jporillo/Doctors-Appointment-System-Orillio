@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zeus Clinic Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .error-msg {
+            color: red;
+            font-size: 12px;
+            margin-top: -8px;
+            margin-bottom: 6px;
+            text-align: left;
+            display: none;
+        }
+        input.invalid {
+            border: 2px solid red !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Welcome to Zeus's Clinic</h1>
+    <div class="subtitle">Login to book your doctor appointment</div>
+
+    <form method="POST" id="loginForm" novalidate>
+        <input type="text" name="username" id="username" placeholder="Username">
+        <div class="error-msg" id="err-username">Please fill out this field.</div>
+
+        <input type="password" name="password" id="password" placeholder="Password">
+        <div class="error-msg" id="err-password">Please fill out this field.</div>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="register">
+        <a href="{{ url_for('register') }}">Register</a>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+        const fields = ["username", "password"];
+        let hasError = false;
+
+        fields.forEach(function(id) {
+            const input = document.getElementById(id);
+            const errMsg = document.getElementById("err-" + id);
+
+            if (input.value.trim() === "") {
+                input.classList.add("invalid");
+                errMsg.style.display = "block";
+                hasError = true;
+            } else {
+                input.classList.remove("invalid");
+                errMsg.style.display = "none";
+            }
+        });
+
+        if (hasError) {
+            e.preventDefault();
+        }
+    });
+
+    ["username", "password"].forEach(function(id) {
+        document.getElementById(id).addEventListener("input", function() {
+            if (this.value.trim() !== "") {
+                this.classList.remove("invalid");
+                document.getElementById("err-" + id).style.display = "none";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Delete Patient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .field-error {
+            color: #e05c8a;
+            font-size: 12px;
+            margin-top: -8px;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        input.invalid {
+            border: 2px solid #e05c8a !important;
+        }
+        .warning-box {
+            background: #fff0f5;
+            border: 1.5px solid #f9a8d4;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #e05c8a;
+            text-align: center;
+        }
+        .warning-box strong {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .editing-label {
+            text-align: center;
+            color: #c084b0;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+        .editing-label span {
+            font-weight: 700;
+            color: #ec4899;
+        }
+        .section-label {
+            font-size: 11px;
+            color: #f9a8d4;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .delete-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #f9a8d4, #ec4899);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+        }
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+        }
+        .success-msg {
+            color: #22c97a;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+<div class="heart">❤</div>
+
+<div class="container">
+
+    <h1>Delete Patient 🗑️</h1>
+    <div class="subtitle">Admin Panel - Zeus's Clinic</div>
+
+    {% if success %}
+
+        <p class="success-msg">&#10003; {{ name }}'s account has been deleted successfully!</p>
+        <div class="login" style="margin-top: 14px;">
+            <a href="{{ url_for('admin_panel') }}">&#8592; Back to Admin Panel</a>
+        </div>
+
+    {% else %}
+
+        <p class="editing-label">Deleting record for: <span>@{{ username }}</span></p>
+
+        <div class="warning-box">
+            <strong>⚠ Are you sure?</strong>
+            This will permanently delete <strong>{{ name }}</strong>'s account and all their data. This cannot be undone.
+        </div>
+
+        {% if verify_error %}
+            <p class="field-error" style="text-align:center;">{{ verify_error }}</p>
+        {% endif %}
+
+        <form method="POST" action="/admin/delete/{{ username }}">
+
+            <p class="section-label">✦ Admin Verification</p>
+
+            <input type="password" name="verify_password"
+                   placeholder="Enter your admin password"
+                   class="{{ 'invalid' if verify_error else '' }}">
+
+            <br>
+
+            <button type="submit" class="delete-btn">Yes, Delete This Account</button>
+        </form>
+
+        <div class="login" style="margin-top: 14px;">
+            <a href="{{ url_for('admin_panel') }}">&#8592; Back to Admin Panel</a>
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
